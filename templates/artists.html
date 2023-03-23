@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Artists{% endblock %}
+{% block content %}
+
+    <!-- Page Title-->
+    <h2 class="text-center">Artists</h2>
+    
+    <section class="row border-container">
+        <!-- Add Artist Button -->
+        <div class="col-sm-12 add-btn text-center">
+            <a href="{{ url_for('add_artist') }}" class="btn btn-outline-secondary text-shadow" id="neon-btn">
+                Add Artist  <i class="fas fa-plus"></i>
+            </a>
+        </div>
+        <!-- Artists -->
+        {% for artist in artists %}
+            <div class="col-md-3 col-sm-8">
+                <a href="{{ url_for('artist', artist_name=artist.artist_name) }}">
+                    <div class="center-margin">
+                        <div class="artists-box">
+                            <div class="border-mask-top"></div>
+                            <h3 class="artist-name">{{ artist.artist_name }}</h3>
+                            <div class="border-mask-bottom"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}

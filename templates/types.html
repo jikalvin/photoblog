@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Types{% endblock %}
+{% block content %}
+
+    <!-- Page Title -->
+    <h2 class="page-title text-center">All Types</h2>
+
+    
+    <section class="row border-container">
+        <!-- Admin Buttons -->
+        {% if session.user|lower == "admin"|lower %}
+                <div class="col-sm-12 add-btn text-center">
+                    <a href="{{ url_for('add_type') }}" class="btn btn-outline-secondary top-margin" id="neon-btn">
+                        Add Type  <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+        {% endif %}
+
+        <!-- Types -->
+        {% for type in types %}
+            <div class="col-md-4 col-sm-8">
+                <div class="center-margin">
+                    <div class="style-box">
+                        <div class="border-mask-top"></div>
+                        <!-- Type Name -->
+                        <a href="{{ url_for('type', type_name=type.type_name) }}">
+                            <!-- Type Image -->
+                            <img class="card-img-top" id="crew-panel-image" src="{{ type.type_image }}" alt="Type Image"
+                                onerror="this.onerror=null;this.src='/static/images/noimage.jpg';">
+                            <h3 class="type white-text">{{ type.type_name }}</h3>
+                        </a>
+                        <div class="border-mask-bottom"></div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}

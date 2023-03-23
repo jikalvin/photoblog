@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}{{ work.style_name }} By {{ work.artist_name }}{% endblock %}
+{% block content %}
+
+    <section class="text-center">
+        <div class="border-container">
+            <!-- Work Image -->
+            <img src="{{ work.image_url }}" class="large-image" alt="Graffiti Image" 
+                onerror="this.onerror=null;this.src='/static/images/noimage.jpg';">
+            
+            <!-- Artist Name -->
+            <div class="col-sm-8 center-margin">
+                <div class="work-box">
+                    <div class="border-mask-top"></div>
+                        <h2 class="artist-info text-center">Artist: </h2>
+                        <!-- Artist Page Route -->
+                        {% for artist in artists %}
+                            {% if artist.artist_name|lower == work.artist_name|lower %}
+                                <a href="{{ url_for('artist', artist_name=work.artist_name) }}">
+                                <h2 class="artist-direct-info">{{ work.artist_name|upper }}</h2>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                        <!-- Crew Page Route -->
+                        {% for crew in crews %}
+                            {% if crew.crew_name|upper == work.artist_name|upper %}
+                                <a href="{{ url_for('crew', crew_name=work.artist_name) }}">
+                                    <h2 class="artist-direct-info">{{ work.artist_name|upper }}</h2>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    <div class="border-mask-bottom-full"></div>
+                </div>
+            </div>
+            <!-- Style -->
+            <div class="col-sm-8 center-margin">
+                <div class="work-box">
+                    <div class="border-mask-top-full"></div>
+                        <h2 class="artist-info text-center">Style: </h2>
+                        <a href="{{ url_for('style', style_name=work.style_name) }}">
+                            <h2 class="artist-direct-info">{{ work.style_name }}</h2>
+                        </a>
+                    <div class="border-mask-bottom-full"></div>
+                </div>
+            </div>
+            <!-- Type -->
+            <div class="col-sm-8 center-margin">
+                <div class="work-box">
+                    <div class="border-mask-top-full"></div>
+                        <h2 class="artist-info text-center">Type: </h2>
+                        <a href="{{ url_for('type', type_name=work.type_name) }}">
+                            <h2 class="artist-direct-info">{{ work.type_name }}</h2>
+                        </a>
+                    <div class="border-mask-bottom-full"></div>
+                </div>
+            </div>
+            <!-- Year Painted -->
+            <div class="col-sm-8 center-margin">
+                <div class="work-box">
+                    <div class="border-mask-top-full"></div>
+                        <h2 class="artist-info text-center">Year Taken: </h2>
+                        <a>
+                            <h2 class="artist-direct-info">{{ work.year_painted }}</h2>
+                        </a>
+                    <div class="border-mask-bottom"></div>
+                </div>
+            </div>
+
+            <!-- Go Back Button -->
+            <div class="col-sm-12 add-btn text-center">
+                <a href="{{ url_for('works') }}" class="btn btn-outline-secondary text-shadow" id="neon-btn">
+                    Back To Works  <i class="fas fa-angle-double-left"></i>
+                </a>
+            </div>
+        
+            <!-- User Uploaded / Admin Buttons-->
+            {% if session.user|lower == work.submitted_by|lower or session.user|lower == "admin"|lower %}
+                <a href="{{ url_for('edit_work', work_id=work._id) }}" class="btn btn-sm btn-cyan text-shadow">Edit</a>
+                <button type="button" class="btn btn-sm btn-mdb-color text-shadow" data-toggle="modal" 
+                    data-target="#confirm-delete-modal">Delete</button>
+                
+                <!-- Confirm Delete Modal -->
+                <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+                        <div class="modal-content text-center">
+                            <div class="modal-header d-flex justify-content-center">
+                                <p class="heading">Are you sure?</p>
+                            </div>
+                            <div class="modal-body">
+                                <i class="fas fa-times fa-4x animated rotateIn"></i>
+                            </div>
+                            <div class="modal-footer flex-center">
+                                <a href="{{ url_for('delete_work', work_id=work._id) }}" class="btn btn-outline-danger">Yes</a>
+                                <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}

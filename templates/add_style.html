@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Add Style{% endblock %}
+{% block content %}
+
+    <div class="admin-banner text-shadow"><h2>ADMIN PANEL</h2></div>
+    
+    <!-- Page Title-->
+    <h2 class="page-title text-center">Add Style</h2>
+
+    <section class="row border-container">
+        <form class="col-sm-12 col-md-8 offset-md-2" method="POST" action="{{ url_for('add_style') }}">
+            <!-- Style Name -->
+            <div class="md-form">
+                <i class="fas fa-user-ninja prefix"></i>
+                <input type="text" name="style_name" id="style_name" minlength="3"
+                    maxlength="15" pattern="^[a-zA-Z0-9\xe0-\xef\x80-\xbf._-]+\s*{3,15}$" class="form-control validate" required>
+                <label for="style_name">Style Name</label>
+            </div>
+            <!-- Style Image -->
+            <div class="md-form">
+                <i class="fas fa-camera-retro prefix"></i>
+                <input type="text" name="image_url" id="image_url" minlength="3"
+                    maxlength="500" class="form-control validate" required>
+                <label for="image_url">Image URL</label>
+            </div>
+            <!-- Submit -->
+            <div class="row" style="justify-content: center;">
+                <button type="submit" class="col-sm-4 btn-elegant">
+                    Add Style <i class="fas fa-plus-circle"></i>
+                </button>
+            </div>
+        </form>
+    </section>
+
+{% endblock %}

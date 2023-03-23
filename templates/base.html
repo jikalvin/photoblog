@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Bristol Blackbook - Underground Graffiti Community">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicons/favicon.ico') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton:400|Archivo+Black|Kanit:ital,wght@0,200;0,300;0,500;0,600;1,500&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+    <title>{% block title %}{% endblock %} | Photoblog</title>
+</head>
+<body>
+    <header>
+        <div id="cover">
+            <!-- Navbar From MDBootsptrap -->
+            <nav class="navbar navbar-expand-lg navbar-dark text-shadow">
+                <a class="navbar-brand" href="{{ url_for('welcome') }}">
+                    <img class="nav-logo" src="\static\images\logo.png" alt="Nav Logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" 
+                    data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggler">
+                    <ul class="navbar-nav mt-2 mt-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('works') }}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('artists') }}">Artists</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('crews') }}">Crews</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('styles') }}">Styles</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('types') }}">Types</a></li>
+                        {% if session.user %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('new_work') }}">New Upload</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('add_artist') }}">Add Artist</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('add_crew') }}">Add Crew</a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        {% if session.user %}
+                            {% if session.user|lower == "admin"|lower %}
+                                <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_panel', username=session['user']) }}">Admin Panel</a></li>
+                            {% endif %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Log Out</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Log In</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+            <!-- Main Heading Title -->
+            <a href="{{ url_for('welcome') }}" class="heading">
+                <h1 id="title">YOCILAB Photoblog</h1>
+            </a>
+        </div>
+    </header>
+
+    <!-- Preloader -->
+    <div class="row loader">
+        <div class="col-md-12">
+            <div class="preloader1">
+                <div class="loader loader-inner-1">
+                    <div class="loader loader-inner-2">
+                        <div class="loader loader-inner-3">
+                        </div>
+                    </div>
+                </div>
+                <h2>LOADING</h2>
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <!-- Flash Message -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flashes">
+                        <h4 class="light-blue lighten-4 text-center">{{ message }}</h4>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </section>
+
+    <!-- Main Page Content -->
+    <main class="container-lg">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="page-footer font-small black">
+        <div class="row">
+            <div class="col-md-12 social-links">
+                <!-- Facebook -->
+                <a class="fb-ic" href="https://www.facebook.com" target="_blank" rel="noopener">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <!-- Twitter -->
+                <a class="tw-ic" href="https://www.twitter.com" target="_blank" rel="noopener">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <!--Instagram-->
+                <a class="ins-ic" href="https://www.instagram.com" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-3">© 2021 | Bristol Blackbook | RewdCode</div>
+    </footer>
+
+    <!-- JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <!-- Custom Scripts -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
